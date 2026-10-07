@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class FuelPickup : MonoBehaviour
+    public class CoinPickup : MonoBehaviour
     {
         public void DestroySelf()
         {
