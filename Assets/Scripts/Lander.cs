@@ -23,13 +23,16 @@ namespace Assets.Scripts
 
         private Rigidbody2D landerRb2D;
 
-        private float fuelAmount = 10f;
+        private float fuelAmount;
+        private float fuelMaxAmount = 10f;
 
         private void Awake()
         {
             Instance = this;
 
             landerRb2D = GetComponent<Rigidbody2D>();
+
+            fuelAmount = fuelMaxAmount;
         }
 
         private void FixedUpdate()
@@ -115,8 +118,11 @@ namespace Assets.Scripts
             {
                 float fuelAddAmount = 10f;
                 fuelAmount += fuelAddAmount;
+                if (fuelAmount > fuelMaxAmount)
+                {
+                    fuelAmount = fuelMaxAmount;
+                }
                 fuelPickup.DestroySelf();
-                Debug.Log("Remaining fuel: " + fuelAmount);
             }
             if (collider2D.TryGetComponent(out CoinPickup coinPickup))
             {
@@ -133,6 +139,21 @@ namespace Assets.Scripts
             {
                 fuelAmount = 0;
             }
+        }
+
+        public float GetSpeedX()
+        {
+            return landerRb2D.linearVelocityX;
+        }
+
+        public float GetSpeedY()
+        {
+            return landerRb2D.linearVelocityY;
+        }
+
+        public float GetFuelNormalized()
+        {
+            return fuelAmount / fuelMaxAmount;
         }
     }
 }
