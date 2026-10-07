@@ -12,16 +12,16 @@ public class Lander : MonoBehaviour
     private void FixedUpdate()
     {
         if (Keyboard.current.upArrowKey.isPressed) {
-            var force = 700f;
-            landerRb2D.AddForce(transform.up * (force * Time.deltaTime));
+            var force = 15f;
+            landerRb2D.AddForce(transform.up * force);
         }
         if (Keyboard.current.leftArrowKey.isPressed) {
-            var turnSpeed = 100f;
-            landerRb2D.AddTorque(turnSpeed * Time.deltaTime);
+            var turnSpeed = 2f;
+            landerRb2D.AddTorque(turnSpeed);
         }
         if (Keyboard.current.rightArrowKey.isPressed) {
-            var turnSpeed = -100f;
-            landerRb2D.AddTorque(turnSpeed * Time.deltaTime);
+            var turnSpeed = -2f;
+            landerRb2D.AddTorque(turnSpeed);
         }
     }
 }
