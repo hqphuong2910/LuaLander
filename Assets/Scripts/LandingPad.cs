@@ -1,16 +1,9 @@
 using UnityEngine;
 
-public class LandingPad : MonoBehaviour
-{
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+public class LandingPad : MonoBehaviour {
+    [SerializeField] private float scoreMultiplier = 1f;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public float GetScoreMultiplier() {
+        return scoreMultiplier;
     }
 }

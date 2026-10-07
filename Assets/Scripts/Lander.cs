@@ -24,7 +24,7 @@ public class Lander : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D(Collision2D collision2D) {
-        if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad)){
+        if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
             Debug.Log("Crashed on terrain.");
             return;
         }
@@ -54,5 +54,8 @@ public class Lander : MonoBehaviour {
 
         Debug.Log("Landing speed score: " + landingSpeedScore);
         Debug.Log("Landing angle score: " + landingAngleScore);
+
+        var totalScore = Mathf.RoundToInt(landingSpeedScore + landingAngleScore) * landingPad.GetScoreMultiplier();
+        Debug.Log("Total score: " + totalScore);
     }
 }
