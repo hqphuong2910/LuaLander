@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Unity.U2D.Welcome
+namespace Assets.Welcome
 {
     [CreateAssetMenu(fileName = "Welcome2DScript", menuName = "Welcome/Welcome2DScript")]
     class Welcome2DScript : ScriptableObject
