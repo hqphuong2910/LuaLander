@@ -1,61 +1,75 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Lander : MonoBehaviour {
-    private Rigidbody2D landerRb2D;
+namespace Assets.Scripts
+{
+        public class Lander : MonoBehaviour {
 
-    private void Awake() {
-        landerRb2D = GetComponent<Rigidbody2D>();
-    }
+            public event EventHandler OnNoForce;
+            public event EventHandler OnUpForce;
+            public event EventHandler OnLeftForce;
+            public event EventHandler OnRightForce;
+            private Rigidbody2D landerRb2D;
 
-    private void FixedUpdate() {
-        if (Keyboard.current.upArrowKey.isPressed) {
-            var force = 15f;
-            landerRb2D.AddForce(transform.up * force);
+            private void Awake() {
+                landerRb2D = GetComponent<Rigidbody2D>();
+            }
+
+            private void FixedUpdate() {
+                OnNoForce?.Invoke(this, EventArgs.Empty);
+
+                if (Keyboard.current.upArrowKey.isPressed) {
+                    float force = 15f;
+                    landerRb2D.AddForce(transform.up * force);
+                    OnUpForce?.Invoke(this, EventArgs.Empty);
+                }
+                if (Keyboard.current.leftArrowKey.isPressed) {
+                    float turnSpeed = 2f;
+                    landerRb2D.AddTorque(turnSpeed);
+                    OnLeftForce?.Invoke(this, EventArgs.Empty);
+                }
+                if (Keyboard.current.rightArrowKey.isPressed) {
+                    float turnSpeed = -2f;
+                    landerRb2D.AddTorque(turnSpeed);
+                    OnRightForce?.Invoke(this, EventArgs.Empty);
+                }
+            }
+
+            private void OnCollisionEnter2D(Collision2D collision2D) {
+                if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
+                    Debug.Log("Crashed on terrain.");
+                    return;
+                }
+
+                float softLandingVelocityMagnitude = 4f;
+                float relativeVelocityMagnitude = collision2D.relativeVelocity.magnitude;
+                if (relativeVelocityMagnitude > softLandingVelocityMagnitude) {
+                    Debug.Log("Landed too hard.");
+                    return;
+                }
+
+                float dotVector = Vector2.Dot(Vector2.up, transform.up);
+                float minDotVector = 0.85f;
+                if (dotVector <= minDotVector) {
+                    Debug.Log("Landed on a too steep angle.");
+                    return;
+                }
+
+                Debug.Log("Successful landing");
+
+                int landingSpeedScoreAmount = 100;
+                float landingSpeedScore = (softLandingVelocityMagnitude - relativeVelocityMagnitude) * landingSpeedScoreAmount;
+
+                int landingAngleMaxScoreAmount = 100;
+                float dotVectorScoreMultiplier = 10f;
+                float landingAngleScore = landingAngleMaxScoreAmount - Mathf.Abs(dotVector - 1f) * dotVectorScoreMultiplier * landingAngleMaxScoreAmount;
+
+                Debug.Log("Landing speed score: " + landingSpeedScore);
+                Debug.Log("Landing angle score: " + landingAngleScore);
+
+                float totalScore = Mathf.RoundToInt(landingSpeedScore + landingAngleScore) * landingPad.GetScoreMultiplier();
+                Debug.Log("Total score: " + totalScore);
+            }
         }
-        if (Keyboard.current.leftArrowKey.isPressed) {
-            var turnSpeed = 2f;
-            landerRb2D.AddTorque(turnSpeed);
-        }
-        if (Keyboard.current.rightArrowKey.isPressed) {
-            var turnSpeed = -2f;
-            landerRb2D.AddTorque(turnSpeed);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision2D) {
-        if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad)) {
-            Debug.Log("Crashed on terrain.");
-            return;
-        }
-
-        var softLandingVelocityMagnitude = 4f;
-        var relativeVelocityMagnitude = collision2D.relativeVelocity.magnitude;
-        if (relativeVelocityMagnitude > softLandingVelocityMagnitude) {
-            Debug.Log("Landed too hard.");
-            return;
-        }
-
-        var dotVector = Vector2.Dot(Vector2.up, transform.up);
-        var minDotVector = 0.85f;
-        if (dotVector <= minDotVector) {
-            Debug.Log("Landed on a too steep angle.");
-            return;
-        }
-
-        Debug.Log("Successful landing");
-
-        var landingSpeedScoreAmount = 100;
-        var landingSpeedScore = (softLandingVelocityMagnitude - relativeVelocityMagnitude) * landingSpeedScoreAmount;
-
-        var landingAngleMaxScoreAmount = 100;
-        var dotVectorScoreMultiplier = 10f;
-        var landingAngleScore = landingAngleMaxScoreAmount - Mathf.Abs(dotVector - 1f) * dotVectorScoreMultiplier * landingAngleMaxScoreAmount;
-
-        Debug.Log("Landing speed score: " + landingSpeedScore);
-        Debug.Log("Landing angle score: " + landingAngleScore);
-
-        var totalScore = Mathf.RoundToInt(landingSpeedScore + landingAngleScore) * landingPad.GetScoreMultiplier();
-        Debug.Log("Total score: " + totalScore);
-    }
 }

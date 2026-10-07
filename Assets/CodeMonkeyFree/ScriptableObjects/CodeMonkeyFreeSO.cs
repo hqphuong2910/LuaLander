@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace CodeMonkey.FreeWindow {
+namespace ScriptableObjects {
 
     [CreateAssetMenu()]
     public class CodeMonkeyFreeSO : ScriptableObject {
@@ -96,7 +96,7 @@ namespace CodeMonkey.FreeWindow {
             EditorUtility.SetDirty(codeMonkeyInteractiveSO);
 
             string url = "https://unitycodemonkey.com/generic_action_json.php";
-            UnityWebRequest unityWebRequest = new UnityWebRequest(url, "POST");
+            UnityWebRequest unityWebRequest = new(url, "POST");
 
             string jsonData = JsonUtility.ToJson(new GenericActionJSONData {
                 at = "editorwindowversion",
@@ -164,7 +164,7 @@ namespace CodeMonkey.FreeWindow {
             EditorUtility.SetDirty(codeMonkeyInteractiveSO);
 
             string url = "https://unitycodemonkey.com/generic_action_json.php";
-            UnityWebRequest unityWebRequest = new UnityWebRequest(url, "POST");
+            UnityWebRequest unityWebRequest = new(url, "POST");
 
             string jsonData = JsonUtility.ToJson(new GenericActionJSONData {
                 at = "getLastQotd",
@@ -229,7 +229,7 @@ namespace CodeMonkey.FreeWindow {
             EditorUtility.SetDirty(codeMonkeyInteractiveSO);
 
             string url = "https://unitycodemonkey.com/generic_action_json.php";
-            UnityWebRequest unityWebRequest = new UnityWebRequest(url, "POST");
+            UnityWebRequest unityWebRequest = new(url, "POST");
 
             string jsonData = JsonUtility.ToJson(new GenericActionJSONData {
                 at = "getDynamicEmailHeaderJson",
@@ -254,7 +254,7 @@ namespace CodeMonkey.FreeWindow {
                         WebsiteResponse websiteResponse = JsonUtility.FromJson<WebsiteResponse>(downloadText);
                         if (websiteResponse.returnCode == 1) {
                             // Success
-                            LastDynamicHeaderResponse lastDynamicHeaderResponse = 
+                            LastDynamicHeaderResponse lastDynamicHeaderResponse =
                                 JsonUtility.FromJson<LastDynamicHeaderResponse>(websiteResponse.returnText);
                             codeMonkeyInteractiveSO.lastDynamicHeaderResponse = lastDynamicHeaderResponse;
                             onResponse(codeMonkeyInteractiveSO.lastDynamicHeaderResponse);
@@ -293,7 +293,7 @@ namespace CodeMonkey.FreeWindow {
             EditorUtility.SetDirty(codeMonkeyInteractiveSO);
 
             string url = "https://unitycodemonkey.com/generic_action_json.php";
-            UnityWebRequest unityWebRequest = new UnityWebRequest(url, "POST");
+            UnityWebRequest unityWebRequest = new(url, "POST");
 
             string jsonData = JsonUtility.ToJson(new GenericActionJSONData {
                 at = "editorwindowlatestMessage",
@@ -365,7 +365,7 @@ namespace CodeMonkey.FreeWindow {
             EditorUtility.SetDirty(codeMonkeyInteractiveSO);
 
             string url = "https://unitycodemonkey.com/generic_action_json.php";
-            UnityWebRequest unityWebRequest = new UnityWebRequest(url, "POST");
+            UnityWebRequest unityWebRequest = new(url, "POST");
 
             string jsonData = JsonUtility.ToJson(new GenericActionJSONData {
                 at = "getLastVideos",

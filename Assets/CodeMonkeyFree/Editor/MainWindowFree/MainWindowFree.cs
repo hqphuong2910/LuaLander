@@ -1,14 +1,12 @@
+using ScriptableObjects;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UIElements;
 
-namespace CodeMonkey.FreeWindow {
+namespace Editor.MainWindowFree {
 
     [InitializeOnLoad]
     public class MainWindowFree : EditorWindow {
@@ -36,7 +34,7 @@ namespace CodeMonkey.FreeWindow {
                     // Too soon
                     return;
                 }
-                
+
                 codeMonkeyInteractiveSO.lastShownTimestamp = unixTimestamp;
 
                 ShowWindow();
@@ -343,7 +341,7 @@ namespace CodeMonkey.FreeWindow {
             VisualElement dynamicMessageVisualElement =
                 mainMenuVisualElement.Q<VisualElement>("dynamicMessage");
 
-            Func<string> getDynamicMessageURL = () => "https://unitycodemonkey.com/";
+            string getDynamicMessageURL() => "https://unitycodemonkey.com/";
             dynamicMessageVisualElement.RegisterCallback((ClickEvent clickEvent) => {
                 Application.OpenURL(getDynamicMessageURL());
             });
