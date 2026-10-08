@@ -9,6 +9,7 @@ namespace Assets.Scripts
         [SerializeField] private ParticleSystem leftThrusterParticleSystem;
         [SerializeField] private ParticleSystem middleThrusterParticleSystem;
         [SerializeField] private ParticleSystem rightThrusterParticleSystem;
+        [SerializeField] private GameObject explosionVfx;
 
         private Lander lander;
 
@@ -20,6 +21,7 @@ namespace Assets.Scripts
             lander.OnUpForce += Lander_OnUpForce;
             lander.OnLeftForce += Lander_OnLeftForce;
             lander.OnRightForce += Lander_OnRightForce;
+            lander.OnLanded += Lander_OnLanded;
         }
 
         private void Lander_OnNoForce(object sender, EventArgs e)
@@ -44,6 +46,23 @@ namespace Assets.Scripts
         private void Lander_OnRightForce(object sender, EventArgs e)
         {
             SetEnableThrusterParticleSystem(rightThrusterParticleSystem, true);
+        }
+
+        private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
+        {
+            switch (e.landingType)
+            {
+                default:
+                    break;
+                case Lander.LandingType.Success:
+                    break;
+                case Lander.LandingType.TooFast:
+                case Lander.LandingType.TooSteepAngle:
+                case Lander.LandingType.WrongArea:
+                    Instantiate(explosionVfx, transform.position, Quaternion.identity);
+                    gameObject.SetActive(false);
+                    break;
+            }
         }
 
         private void SetEnableThrusterParticleSystem(ParticleSystem particleSystem, bool isEnable)

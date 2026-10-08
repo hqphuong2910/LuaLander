@@ -5,12 +5,35 @@ namespace Assets.Scripts
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager Instance { get; private set; }
+
+        private bool isTimerActive;
         private int score;
+        private float time;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
             Lander.Instance.OnCoinPickup += Lander_OnCoinPickup;
             Lander.Instance.OnLanded += Lander_OnLanded;
+            Lander.Instance.OnStateChanged += Lander_OnStateChanged;
+        }
+
+        private void Update()
+        {
+            if (isTimerActive)
+            {
+                time += Time.deltaTime;
+            }
+        }
+
+        private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e)
+        {
+            isTimerActive = e.newState == Lander.State.Normal;
         }
 
         private void Lander_OnCoinPickup(object sender, EventArgs e)
@@ -26,7 +49,16 @@ namespace Assets.Scripts
         private void AddScore(int scoreAmount)
         {
             score += scoreAmount;
-            Debug.Log("Score:" + score);
+        }
+
+        public int GetScore()
+        {
+            return score;
+        }
+
+        public float GetTime()
+        {
+            return time;
         }
     }
 }
