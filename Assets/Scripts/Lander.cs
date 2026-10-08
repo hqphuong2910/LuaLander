@@ -18,7 +18,19 @@ namespace Assets.Scripts
         public event EventHandler<OnLandedEventArgs> OnLanded;
         public class OnLandedEventArgs : EventArgs
         {
+            public LandingType landingType;
+            public float landingSpeed;
+            public float dotVector;
+            public float scoreMultiplier;
             public int score;
+        }
+
+        public enum LandingType
+        {
+            Success,
+            WrongArea,
+            TooSteepAngle,
+            TooFast,
         }
 
         private Rigidbody2D landerRb2D;
@@ -76,6 +88,14 @@ namespace Assets.Scripts
             if (!collision2D.gameObject.TryGetComponent(out LandingPad landingPad))
             {
                 Debug.Log("Crashed on terrain.");
+                OnLanded?.Invoke(this, new OnLandedEventArgs
+                {
+                    landingType = LandingType.WrongArea,
+                    landingSpeed = 0f,
+                    dotVector = 0f,
+                    scoreMultiplier = 0f,
+                    score = 0
+                });
                 return;
             }
 
@@ -84,6 +104,15 @@ namespace Assets.Scripts
             if (relativeVelocityMagnitude > softLandingVelocityMagnitude)
             {
                 Debug.Log("Landed too hard.");
+                OnLanded?.Invoke(this, new OnLandedEventArgs
+                {
+                    landingType = LandingType.TooFast,
+                    landingSpeed = relativeVelocityMagnitude,
+                    dotVector = 0f,
+                    scoreMultiplier = 0f,
+                    score = 0
+                });
+
                 return;
             }
 
@@ -92,6 +121,14 @@ namespace Assets.Scripts
             if (dotVector <= minDotVector)
             {
                 Debug.Log("Landed on a too steep angle.");
+                OnLanded?.Invoke(this, new OnLandedEventArgs
+                {
+                    landingType = LandingType.TooSteepAngle,
+                    landingSpeed = relativeVelocityMagnitude,
+                    dotVector = dotVector,
+                    scoreMultiplier = 0f,
+                    score = 0
+                });
                 return;
             }
 
@@ -108,6 +145,10 @@ namespace Assets.Scripts
 
             OnLanded?.Invoke(this, new OnLandedEventArgs
             {
+                landingType = LandingType.Success,
+                landingSpeed = relativeVelocityMagnitude,
+                dotVector = dotVector,
+                scoreMultiplier = landingPad.GetScoreMultiplier(),
                 score = totalScore
             });
         }
