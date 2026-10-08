@@ -8,6 +8,8 @@ namespace Assets.Scripts
     {
         public static Lander Instance { get; private set; }
 
+        private const float GRAVITY_NORMAL = 0.7f;
+
         public event EventHandler OnNoForce;
         public event EventHandler OnUpForce;
         public event EventHandler OnLeftForce;
@@ -33,6 +35,20 @@ namespace Assets.Scripts
             TooFast,
         }
 
+        public event EventHandler<OnStateChangedEventArgs> OnStateChanged;
+        public class OnStateChangedEventArgs : EventArgs
+        {
+            public State newState;
+        }
+        public enum State
+        {
+            WaitingToStart,
+            Normal,
+            GameOver,
+        }
+
+        private State currentState;
+
         private Rigidbody2D landerRb2D;
 
         private float fuelAmount;
@@ -45,6 +61,10 @@ namespace Assets.Scripts
             landerRb2D = GetComponent<Rigidbody2D>();
 
             fuelAmount = fuelMaxAmount;
+
+            landerRb2D.gravityScale = 0f;
+
+            currentState = State.WaitingToStart;
         }
 
         private void FixedUpdate()
@@ -56,30 +76,46 @@ namespace Assets.Scripts
                 return;
             }
 
-            if (Keyboard.current.upArrowKey.isPressed ||
-                Keyboard.current.leftArrowKey.isPressed ||
-                Keyboard.current.rightArrowKey.isPressed)
+            switch (currentState)
             {
-                ConsumeFuel();
-            }
-
-            if (Keyboard.current.upArrowKey.isPressed)
-            {
-                float force = 15f;
-                landerRb2D.AddForce(transform.up * force);
-                OnUpForce?.Invoke(this, EventArgs.Empty);
-            }
-            if (Keyboard.current.leftArrowKey.isPressed)
-            {
-                float turnSpeed = 2f;
-                landerRb2D.AddTorque(turnSpeed);
-                OnLeftForce?.Invoke(this, EventArgs.Empty);
-            }
-            if (Keyboard.current.rightArrowKey.isPressed)
-            {
-                float turnSpeed = -2f;
-                landerRb2D.AddTorque(turnSpeed);
-                OnRightForce?.Invoke(this, EventArgs.Empty);
+                default:
+                case State.WaitingToStart:
+                    if (Keyboard.current.upArrowKey.isPressed ||
+                        Keyboard.current.leftArrowKey.isPressed ||
+                        Keyboard.current.rightArrowKey.isPressed)
+                    {
+                        ChangeState(State.Normal);
+                        landerRb2D.gravityScale = GRAVITY_NORMAL;
+                    }
+                    break;
+                case State.Normal:
+                    if (Keyboard.current.upArrowKey.isPressed ||
+                        Keyboard.current.leftArrowKey.isPressed ||
+                        Keyboard.current.rightArrowKey.isPressed)
+                    {
+                        ConsumeFuel();
+                    }
+                    if (Keyboard.current.upArrowKey.isPressed)
+                    {
+                        float force = 15f;
+                        landerRb2D.AddForce(transform.up * force);
+                        OnUpForce?.Invoke(this, EventArgs.Empty);
+                    }
+                    if (Keyboard.current.leftArrowKey.isPressed)
+                    {
+                        float turnSpeed = 2f;
+                        landerRb2D.AddTorque(turnSpeed);
+                        OnLeftForce?.Invoke(this, EventArgs.Empty);
+                    }
+                    if (Keyboard.current.rightArrowKey.isPressed)
+                    {
+                        float turnSpeed = -2f;
+                        landerRb2D.AddTorque(turnSpeed);
+                        OnRightForce?.Invoke(this, EventArgs.Empty);
+                    }
+                    break;
+                case State.GameOver:
+                    break;
             }
         }
 
@@ -96,6 +132,7 @@ namespace Assets.Scripts
                     scoreMultiplier = 0f,
                     score = 0
                 });
+                ChangeState(State.GameOver);
                 return;
             }
 
@@ -112,7 +149,7 @@ namespace Assets.Scripts
                     scoreMultiplier = 0f,
                     score = 0
                 });
-
+                ChangeState(State.GameOver);
                 return;
             }
 
@@ -129,6 +166,7 @@ namespace Assets.Scripts
                     scoreMultiplier = 0f,
                     score = 0
                 });
+                ChangeState(State.GameOver);
                 return;
             }
 
@@ -151,6 +189,7 @@ namespace Assets.Scripts
                 scoreMultiplier = landingPad.GetScoreMultiplier(),
                 score = totalScore
             });
+            ChangeState(State.GameOver);
         }
 
         private void OnTriggerEnter2D(Collider2D collider2D)
@@ -195,6 +234,15 @@ namespace Assets.Scripts
         public float GetFuelNormalized()
         {
             return fuelAmount / fuelMaxAmount;
+        }
+
+        private void ChangeState(State newState)
+        {
+            currentState = newState;
+            OnStateChanged?.Invoke(this, new OnStateChangedEventArgs
+            {
+                newState = newState
+            });
         }
     }
 }

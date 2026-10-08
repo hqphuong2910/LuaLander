@@ -7,6 +7,7 @@ namespace Assets.Scripts
     {
         public static GameManager Instance { get; private set; }
 
+        private bool isTimerActive;
         private int score;
         private float time;
 
@@ -19,11 +20,20 @@ namespace Assets.Scripts
         {
             Lander.Instance.OnCoinPickup += Lander_OnCoinPickup;
             Lander.Instance.OnLanded += Lander_OnLanded;
+            Lander.Instance.OnStateChanged += Lander_OnStateChanged;
         }
 
         private void Update()
         {
-            time += Time.deltaTime;
+            if (isTimerActive)
+            {
+                time += Time.deltaTime;
+            }
+        }
+
+        private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e)
+        {
+            isTimerActive = e.newState == Lander.State.Normal;
         }
 
         private void Lander_OnCoinPickup(object sender, EventArgs e)
