@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts {
     public class GameManager : MonoBehaviour {
         public static GameManager Instance { get; private set; }
+
+        [SerializeField] private CinemachineCamera cinemachineCamera;
 
         private static int levelNumber = 1;
         [SerializeField] private List<GameLevel> gameLevelList;
@@ -37,12 +40,18 @@ namespace Assets.Scripts {
                 if (gameLevel.GetLevelNumber() == levelNumber) {
                     GameLevel spawnedLevel = Instantiate(gameLevel, Vector3.zero, Quaternion.identity);
                     Lander.Instance.transform.position = spawnedLevel.GetLanderStartPos();
+                    cinemachineCamera.Target.TrackingTarget = spawnedLevel.GetCameraStartTargetTransform();
+                    CinemachineCameraZoom2D.Instance.SetTargetOrthographicSize(spawnedLevel.GetZoomedOutOrthographicSize());
                 }
             }
         }
 
         private void Lander_OnStateChanged(object sender, Lander.OnStateChangedEventArgs e) {
-            isTimerActive = e.newState == Lander.State.Normal;
+            if (e.newState == Lander.State.Normal) {
+                isTimerActive = true;
+                cinemachineCamera.Target.TrackingTarget = Lander.Instance.transform;
+                CinemachineCameraZoom2D.Instance.SetNormalOrthographicSize();
+            }
         }
 
         private void Lander_OnCoinPickup(object sender, EventArgs e) {
