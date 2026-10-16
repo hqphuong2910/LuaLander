@@ -1,14 +1,11 @@
 using UnityEngine;
 
-namespace Assets.Scripts
-{
-    public class LandingPad : MonoBehaviour
-    {
+namespace Assets.Scripts {
+    public class LandingPad : MonoBehaviour {
 
         [SerializeField] private float scoreMultiplier = 1f;
 
-        public float GetScoreMultiplier()
-        {
+        public float GetScoreMultiplier() {
             return scoreMultiplier;
         }
     }

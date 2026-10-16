@@ -1,37 +1,36 @@
+using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Assets.Scripts
-{
-    public class LandedUI : MonoBehaviour
-    {
+namespace Assets.Scripts {
+    public class LandedUI : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI titleTextMesh;
         [SerializeField] private TextMeshProUGUI statsTextMesh;
         [SerializeField] private Button nextButton;
+        [SerializeField] private TextMeshProUGUI nextButtonTextMesh;
 
-        private void Awake()
-        {
-            nextButton.onClick.AddListener(() => SceneManager.LoadScene(0));
+        private Action nextButtonClickAction;
+
+        private void Awake() {
+            nextButton.onClick.AddListener(() => nextButtonClickAction());
         }
 
-        private void Start()
-        {
+        private void Start() {
             Lander.Instance.OnLanded += Lander_OnLanded;
 
             Hide();
         }
 
-        private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e)
-        {
-            if (e.landingType == Lander.LandingType.Success)
-            {
-                titleTextMesh.text = "SUCCCESSFUL LANDING!";
-            }
-            else
-            {
-                titleTextMesh.text = "<color=#ff0000>CRASHED!</color>";
+        private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e) {
+            if (e.landingType == Lander.LandingType.Success) {
+                titleTextMesh.text = "SUCCCESSFUL LANDING";
+                nextButtonTextMesh.text = "CONTINUE";
+                nextButtonClickAction = GameManager.Instance.GoToNextLevel;
+            } else {
+                nextButtonTextMesh.text = "RETRY";
+                nextButtonClickAction = GameManager.Instance.RetryLevel;
+                titleTextMesh.text = "<color=#ff0000>CRASHED</color>";
             }
 
             statsTextMesh.text =
@@ -43,13 +42,11 @@ namespace Assets.Scripts
             Show();
         }
 
-        private void Hide()
-        {
+        private void Hide() {
             gameObject.SetActive(false);
         }
 
-        private void Show()
-        {
+        private void Show() {
             gameObject.SetActive(true);
         }
     }
