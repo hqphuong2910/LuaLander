@@ -747,6 +747,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1310063725897046907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4806386922099286526
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359858286484844028}
+  m_Layer: 0
+  m_Name: CameraStartTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &359858286484844028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4806386922099286526}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.5, y: 14.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1310063725897046907}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7462442906054374210
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,6 +821,7 @@ Transform:
   - {fileID: 7481783804291640777}
   - {fileID: 3985755211859942605}
   - {fileID: 5961523030161911410}
+  - {fileID: 359858286484844028}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1488467416033725089
@@ -806,6 +838,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.GameLevel
   levelNumber: 2
   landerStartPosTransform: {fileID: 7963971028551434247}
+  cameraStartTargetTransform: {fileID: 359858286484844028}
+  zoomedOutOrthographicSize: 22
 --- !u!1001 &1082096350390757160
 PrefabInstance:
   m_ObjectHideFlags: 0

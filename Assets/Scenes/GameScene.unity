@@ -1617,6 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15cfba87ebb3e7458487d41b5704dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.GameManager
+  cinemachineCamera: {fileID: 1272328706}
   gameLevelList:
   - {fileID: 1488467416033725089, guid: eaef47abd9f6b2642a98f0c07480a0f5, type: 3}
   - {fileID: 1488467416033725089, guid: e490b8572e53b024abb7b40b99749692, type: 3}
@@ -2871,6 +2872,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1595914433}
   m_CullTransparentMesh: 1
+--- !u!1 &1670955059
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1670955060}
+  - component: {fileID: 1670955061}
+  m_Layer: 0
+  m_Name: CinemachineCameraZoom2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1670955060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670955059}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.89888, y: 0.04296, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1670955061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1670955059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ef59cb53539a84cb76a15ef917dfe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.CinemachineCameraZoom2D
+  cinemachineCamera: {fileID: 1272328706}
 --- !u!1 &1702338313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3187,6 +3233,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1272328707}
+  - {fileID: 1670955060}
   - {fileID: 619394802}
   - {fileID: 328282263}
   - {fileID: 1397945912}
