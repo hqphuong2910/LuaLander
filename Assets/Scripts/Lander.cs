@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets.Scripts {
     public class Lander : MonoBehaviour {
@@ -70,30 +69,38 @@ namespace Assets.Scripts {
             switch (currentState) {
                 default:
                 case State.WaitingToStart:
-                    if (Keyboard.current.upArrowKey.isPressed ||
-                        Keyboard.current.leftArrowKey.isPressed ||
-                        Keyboard.current.rightArrowKey.isPressed) {
+                    if (GameInput.Instance.IsUpActionPressed() ||
+                        GameInput.Instance.IsRightActionPressed() ||
+                        GameInput.Instance.IsLeftActionPressed() ||
+                        GameInput.Instance.GetMovementInputVector2() != Vector2.zero) {
                         ChangeState(State.Normal);
                         landerRb2D.gravityScale = GRAVITY_NORMAL;
                     }
                     break;
                 case State.Normal:
-                    if (Keyboard.current.upArrowKey.isPressed ||
-                        Keyboard.current.leftArrowKey.isPressed ||
-                        Keyboard.current.rightArrowKey.isPressed) {
+                    if (GameInput.Instance.IsUpActionPressed() ||
+                        GameInput.Instance.IsRightActionPressed() ||
+                        GameInput.Instance.IsLeftActionPressed() ||
+                        GameInput.Instance.GetMovementInputVector2() != Vector2.zero) {
                         ConsumeFuel();
                     }
-                    if (Keyboard.current.upArrowKey.isPressed) {
+
+                    float gamepadDeadZone = 0.4f;
+
+                    if (GameInput.Instance.IsUpActionPressed() ||
+                        GameInput.Instance.GetMovementInputVector2().y > gamepadDeadZone) {
                         float force = 15f;
                         landerRb2D.AddForce(transform.up * force);
                         OnUpForce?.Invoke(this, EventArgs.Empty);
                     }
-                    if (Keyboard.current.leftArrowKey.isPressed) {
+                    if (GameInput.Instance.IsLeftActionPressed() ||
+                        GameInput.Instance.GetMovementInputVector2().x < -gamepadDeadZone) {
                         float turnSpeed = 2f;
                         landerRb2D.AddTorque(turnSpeed);
                         OnLeftForce?.Invoke(this, EventArgs.Empty);
                     }
-                    if (Keyboard.current.rightArrowKey.isPressed) {
+                    if (GameInput.Instance.IsRightActionPressed() ||
+                        GameInput.Instance.GetMovementInputVector2().x > gamepadDeadZone) {
                         float turnSpeed = -2f;
                         landerRb2D.AddTorque(turnSpeed);
                         OnRightForce?.Invoke(this, EventArgs.Empty);
