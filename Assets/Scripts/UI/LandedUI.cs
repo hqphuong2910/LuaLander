@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts {
+namespace Assets.Scripts.UI {
     public class LandedUI : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI titleTextMesh;
         [SerializeField] private TextMeshProUGUI statsTextMesh;
@@ -47,6 +47,8 @@ namespace Assets.Scripts {
         }
 
         private void Show() {
+            nextButton.Select();
+
             gameObject.SetActive(true);
         }
     }

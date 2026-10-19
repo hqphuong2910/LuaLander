@@ -1,3 +1,4 @@
+using Assets.Scripts.Pickups;
 using System;
 using UnityEngine;
 
