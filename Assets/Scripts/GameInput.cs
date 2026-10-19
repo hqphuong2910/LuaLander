@@ -1,9 +1,12 @@
 using Assets.Settings;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts {
     public class GameInput : MonoBehaviour {
         public static GameInput Instance { get; private set; }
+
+        public event EventHandler OnMenuButtonPressed;
 
         private InputActions inputActions;
 
@@ -12,6 +15,12 @@ namespace Assets.Scripts {
 
             inputActions = new();
             inputActions.Enable();
+
+            inputActions.Player.Menu.performed += Menu_performed;
+        }
+
+        private void Menu_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
+            OnMenuButtonPressed?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnDestroy() {

@@ -133,6 +133,16 @@ namespace Assets.Settings
                     ""interactions"": """",
                     ""initialStateCheck"": true,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""8dfd1f12-c3f8-44e9-ab43-6044a93f3d5d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -278,6 +288,105 @@ namespace Assets.Settings
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fe9555b2-b3c9-46bc-8996-e7afc4f21ff2"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a533522-74f9-4466-806b-d7326f6f67ad"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Custom"",
+                    ""id"": ""9f316be3-57c9-4381-9f7d-404afabb427e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""51c4183d-6bcd-4ab4-aeb9-f8f2cd9a9e7d"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f8935cab-37f4-4fb8-a5f6-ed0ae8bd269b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""1c5aa250-945b-4ced-ba78-fe3ca145c154"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""99f5e82f-5cf3-459e-b6f5-8acf0205291e"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8302b8a7-6457-440a-88e6-17599ac9a074"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""475f35f0-36b5-46e7-ae5b-726be8a10057"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -290,6 +399,7 @@ namespace Assets.Settings
             m_Player_LanderRight = m_Player.FindAction("LanderRight", throwIfNotFound: true);
             m_Player_LanderLeft = m_Player.FindAction("LanderLeft", throwIfNotFound: true);
             m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+            m_Player_Menu = m_Player.FindAction("Menu", throwIfNotFound: true);
         }
 
         ~@InputActions()
@@ -374,6 +484,7 @@ namespace Assets.Settings
         private readonly InputAction m_Player_LanderRight;
         private readonly InputAction m_Player_LanderLeft;
         private readonly InputAction m_Player_Movement;
+        private readonly InputAction m_Player_Menu;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -401,6 +512,10 @@ namespace Assets.Settings
             /// Provides access to the underlying input action "Player/Movement".
             /// </summary>
             public InputAction @Movement => m_Wrapper.m_Player_Movement;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/Menu".
+            /// </summary>
+            public InputAction @Menu => m_Wrapper.m_Player_Menu;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -439,6 +554,9 @@ namespace Assets.Settings
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
 
             /// <summary>
@@ -462,6 +580,9 @@ namespace Assets.Settings
                 @Movement.started -= instance.OnMovement;
                 @Movement.performed -= instance.OnMovement;
                 @Movement.canceled -= instance.OnMovement;
+                @Menu.started -= instance.OnMenu;
+                @Menu.performed -= instance.OnMenu;
+                @Menu.canceled -= instance.OnMenu;
             }
 
             /// <summary>
@@ -530,6 +651,13 @@ namespace Assets.Settings
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnMovement(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Menu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnMenu(InputAction.CallbackContext context);
         }
     }
 }

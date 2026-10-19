@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts {
+namespace Assets.Scripts.UI {
     public class StatsUI : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI statsTextMesh;
         [SerializeField] private Image fuelBarFillImage;
