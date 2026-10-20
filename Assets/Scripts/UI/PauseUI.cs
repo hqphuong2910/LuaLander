@@ -1,4 +1,5 @@
 ﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,10 @@ namespace Assets.Scripts.UI {
     public class PauseUI : MonoBehaviour {
         [SerializeField] private Button resumeButton;
         [SerializeField] private Button mainMenuButton;
+        [SerializeField] private Button soundVolumeButton;
+        [SerializeField] private TextMeshProUGUI soundVolumeTextMesh;
+        [SerializeField] private Button musicVolumeButton;
+        [SerializeField] private TextMeshProUGUI musicVolumeTextMesh;
 
         private void Awake() {
             resumeButton.onClick.AddListener(() => {
@@ -14,11 +19,22 @@ namespace Assets.Scripts.UI {
             mainMenuButton.onClick.AddListener(() => {
                 SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
             });
+            soundVolumeButton.onClick.AddListener(() => {
+                SoundManager.Instance.ChangeSoundVolume();
+                soundVolumeTextMesh.text = "SOUND: " + SoundManager.Instance.GetSoundVolumePercentage() + "%";
+            });
+            musicVolumeButton.onClick.AddListener(() => {
+                MusicManager.Instance.ChangeMusicVolume();
+                musicVolumeTextMesh.text = "MUSIC: " + MusicManager.Instance.GetMusicVolumePercentage() + "%";
+            });
         }
 
         private void Start() {
             GameManager.Instance.OnGamePaused += GameManager_OnGamePaused;
             GameManager.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
+
+            soundVolumeTextMesh.text = "SOUND: " + SoundManager.Instance.GetSoundVolumePercentage() + "%";
+            musicVolumeTextMesh.text = "MUSIC: " + MusicManager.Instance.GetMusicVolumePercentage() + "%";
 
             Hide();
         }
