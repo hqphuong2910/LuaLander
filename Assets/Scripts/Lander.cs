@@ -14,6 +14,7 @@ namespace Assets.Scripts {
         public event EventHandler OnRightForce;
 
         public event EventHandler OnCoinPickup;
+        public event EventHandler OnFuelPickup;
 
         public event EventHandler<OnLandedEventArgs> OnLanded;
         public class OnLandedEventArgs : EventArgs {
@@ -184,6 +185,7 @@ namespace Assets.Scripts {
                 if (fuelAmount > fuelMaxAmount) {
                     fuelAmount = fuelMaxAmount;
                 }
+                OnFuelPickup?.Invoke(this, EventArgs.Empty);
                 fuelPickup.DestroySelf();
             }
             if (collider2D.TryGetComponent(out CoinPickup coinPickup)) {
