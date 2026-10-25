@@ -1,29 +1,41 @@
+using Assets._Project.Scripts.Core;
 using Assets._Project.Settings.Input;
 using System;
-using UnityEngine;
 
 namespace Assets._Project.Scripts {
-    public class GameInput : MonoBehaviour {
+    public class GameInput : CustomMonoBehaviour {
         public static GameInput Instance { get; private set; }
 
         public event EventHandler OnMenuButtonPressed;
 
         private InputActions inputActions;
 
-        private void Awake() {
+        protected override void LoadSelf() {
+            base.LoadSelf();
+
             Instance = this;
 
             inputActions = new();
             inputActions.Enable();
+        }
+
+        protected override void SubscribeEvents() {
+            base.SubscribeEvents();
 
             inputActions.Player.Menu.performed += Menu_performed;
+        }
+
+        protected override void UnsubscribeEvents() {
+            base.UnsubscribeEvents();
+
+            inputActions.Player.Menu.performed -= Menu_performed;
         }
 
         private void Menu_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj) {
             OnMenuButtonPressed?.Invoke(this, EventArgs.Empty);
         }
 
-        private void OnDestroy() {
+        protected override void OnDestroy() {
             inputActions.Disable();
         }
 
