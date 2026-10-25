@@ -1,9 +1,10 @@
+using Assets._Project.Scripts.Core;
 using System;
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.Player {
     [RequireComponent(typeof(Lander))]
-    public class LanderVisual : MonoBehaviour {
+    public class LanderVisual : CustomMonoBehaviour {
 
         [SerializeField] private ParticleSystem leftThrusterParticleSystem;
         [SerializeField] private ParticleSystem middleThrusterParticleSystem;
@@ -12,14 +13,28 @@ namespace Assets._Project.Scripts {
 
         private Lander lander;
 
-        private void Awake() {
+        protected override void LoadSelf() {
             lander = GetComponent<Lander>();
+        }
+
+        protected override void SubscribeEvents() {
+            base.SubscribeEvents();
 
             lander.OnNoForce += Lander_OnNoForce;
             lander.OnUpForce += Lander_OnUpForce;
             lander.OnLeftForce += Lander_OnLeftForce;
             lander.OnRightForce += Lander_OnRightForce;
             lander.OnLanded += Lander_OnLanded;
+        }
+
+        protected override void UnsubscribeEvents() {
+            base.UnsubscribeEvents();
+
+            lander.OnNoForce -= Lander_OnNoForce;
+            lander.OnUpForce -= Lander_OnUpForce;
+            lander.OnLeftForce -= Lander_OnLeftForce;
+            lander.OnRightForce -= Lander_OnRightForce;
+            lander.OnLanded -= Lander_OnLanded;
         }
 
         private void Lander_OnNoForce(object sender, EventArgs e) {
