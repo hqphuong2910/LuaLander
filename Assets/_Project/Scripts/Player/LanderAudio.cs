@@ -1,7 +1,7 @@
 using Assets._Project.Scripts.Managers;
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.Player {
     [RequireComponent(typeof(Lander))]
     public class LanderAudio : MonoBehaviour {
         [SerializeField] private AudioSource thrusterAudioSource;

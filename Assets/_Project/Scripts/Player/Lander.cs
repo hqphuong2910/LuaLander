@@ -1,8 +1,9 @@
-using Assets._Project.Scripts.Pickups;
+using Assets._Project.Scripts.Collectibles;
+using Assets._Project.Scripts.World;
 using System;
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.Player {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Lander : MonoBehaviour {
         public static Lander Instance { get; private set; }

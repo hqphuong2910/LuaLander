@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.World {
     public class LandingPad : MonoBehaviour {
 
         [SerializeField] private float scoreMultiplier = 1f;

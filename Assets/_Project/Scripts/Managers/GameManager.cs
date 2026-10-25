@@ -1,3 +1,4 @@
+using Assets._Project.Scripts.Player;
 using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;

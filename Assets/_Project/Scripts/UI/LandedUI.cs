@@ -1,4 +1,5 @@
 using Assets._Project.Scripts.Managers;
+using Assets._Project.Scripts.Player;
 using System;
 using TMPro;
 using UnityEngine;

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.Player {
     [RequireComponent(typeof(Lander))]
     public class LanderVisual : MonoBehaviour {
 

@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Assets._Project.Scripts {
+namespace Assets._Project.Scripts.World {
     [RequireComponent(typeof(LandingPad))]
     public class LandingPadVisual : MonoBehaviour {
         [SerializeField] private TextMeshPro scoreMultiplierTextMesh;
