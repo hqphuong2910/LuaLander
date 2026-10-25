@@ -1,11 +1,12 @@
 using Assets._Project.Scripts.Collectibles;
+using Assets._Project.Scripts.Core;
 using Assets._Project.Scripts.World;
 using System;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Player {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Lander : MonoBehaviour {
+    public class Lander : CustomMonoBehaviour {
         public static Lander Instance { get; private set; }
 
         private const float GRAVITY_NORMAL = 0.7f;
@@ -51,7 +52,9 @@ namespace Assets._Project.Scripts.Player {
 
         private float fuelAmount;
 
-        private void Awake() {
+        protected override void LoadSelf() {
+            base.LoadSelf();
+
             Instance = this;
 
             landerRb2D = GetComponent<Rigidbody2D>();
@@ -62,6 +65,7 @@ namespace Assets._Project.Scripts.Player {
 
             currentState = State.WaitingToStart;
         }
+
 
         private void FixedUpdate() {
             OnNoForce?.Invoke(this, EventArgs.Empty);

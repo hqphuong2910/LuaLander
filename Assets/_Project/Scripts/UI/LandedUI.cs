@@ -1,3 +1,4 @@
+using Assets._Project.Scripts.Core;
 using Assets._Project.Scripts.Managers;
 using Assets._Project.Scripts.Player;
 using System;
@@ -6,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets._Project.Scripts.UI {
-    public class LandedUI : MonoBehaviour {
+    public class LandedUI : CustomMonoBehaviour {
         [SerializeField] private TextMeshProUGUI titleTextMesh;
         [SerializeField] private TextMeshProUGUI statsTextMesh;
         [SerializeField] private Button nextButton;
@@ -14,14 +15,28 @@ namespace Assets._Project.Scripts.UI {
 
         private Action nextButtonClickAction;
 
-        private void Awake() {
+        protected override void LoadSelf() {
+            base.LoadSelf();
+
             nextButton.onClick.AddListener(() => nextButtonClickAction());
         }
 
-        private void Start() {
-            Lander.Instance.OnLanded += Lander_OnLanded;
+        protected override void Start() {
+            base.Start();
 
             Hide();
+        }
+
+        protected override void SubscribeEvents() {
+            base.SubscribeEvents();
+
+            Lander.Instance.OnLanded += Lander_OnLanded;
+        }
+
+        protected override void UnsubscribeEvents() {
+            base.UnsubscribeEvents();
+
+            Lander.Instance.OnLanded -= Lander_OnLanded;
         }
 
         private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e) {
