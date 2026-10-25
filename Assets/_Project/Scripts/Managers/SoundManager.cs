@@ -1,10 +1,8 @@
-using Assets._Project.Scripts.Core;
-using Assets._Project.Scripts.Player;
 using System;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Managers {
-    public class SoundManager : CustomMonoBehaviour {
+    public class SoundManager : MonoBehaviour {
         public static SoundManager Instance { get; private set; }
 
         public event EventHandler OnSoundVolumeChanged;
@@ -17,26 +15,14 @@ namespace Assets._Project.Scripts.Managers {
         [SerializeField] private AudioClip landingSuccessAudioClip;
         [SerializeField] private AudioClip crashAudioClip;
 
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             Instance = this;
         }
 
-        protected override void SubscribeEvents() {
-            base.SubscribeEvents();
-
+        private void Start() {
             Lander.Instance.OnCoinPickup += Lander_OnCoinPickup;
             Lander.Instance.OnFuelPickup += Lander_OnFuelPickup;
             Lander.Instance.OnLanded += Lander_OnLanded;
-        }
-
-        protected override void UnsubscribeEvents() {
-            base.UnsubscribeEvents();
-
-            Lander.Instance.OnCoinPickup -= Lander_OnCoinPickup;
-            Lander.Instance.OnFuelPickup -= Lander_OnFuelPickup;
-            Lander.Instance.OnLanded -= Lander_OnLanded;
         }
 
         private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e) {

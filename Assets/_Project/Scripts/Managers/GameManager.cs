@@ -1,12 +1,10 @@
-using Assets._Project.Scripts.Core;
-using Assets._Project.Scripts.Player;
 using System;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Managers {
-    public class GameManager : CustomMonoBehaviour {
+    public class GameManager : MonoBehaviour {
         public static GameManager Instance { get; private set; }
 
         public event EventHandler OnGamePaused;
@@ -24,34 +22,18 @@ namespace Assets._Project.Scripts.Managers {
 
         private int score;
 
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             Instance = this;
         }
 
-        protected override void LoadDependencies() {
-            base.LoadDependencies();
-
-            LoadCurrentLevel();
-        }
-
-        protected override void SubscribeEvents() {
-            base.SubscribeEvents();
-
+        private void Start() {
             Lander.Instance.OnCoinPickup += Lander_OnCoinPickup;
             Lander.Instance.OnLanded += Lander_OnLanded;
             Lander.Instance.OnStateChanged += Lander_OnStateChanged;
+
             GameInput.Instance.OnMenuButtonPressed += GameInput_OnMenuButtonPressed;
-        }
 
-        protected override void UnsubscribeEvents() {
-            base.UnsubscribeEvents();
-
-            Lander.Instance.OnCoinPickup -= Lander_OnCoinPickup;
-            Lander.Instance.OnLanded -= Lander_OnLanded;
-            Lander.Instance.OnStateChanged -= Lander_OnStateChanged;
-            GameInput.Instance.OnMenuButtonPressed -= GameInput_OnMenuButtonPressed;
+            LoadCurrentLevel();
         }
 
         private void Update() {

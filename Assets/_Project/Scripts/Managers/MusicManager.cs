@@ -1,10 +1,8 @@
-using Assets._Project.Scripts.Core;
 using System;
 using UnityEngine;
 
 namespace Assets._Project.Scripts.Managers {
-    [RequireComponent(typeof(AudioSource))]
-    public class MusicManager : CustomMonoBehaviour {
+    public class MusicManager : MonoBehaviour {
         public static MusicManager Instance { get; private set; }
 
         public event EventHandler OnMusicVolumeChanged;
@@ -14,7 +12,7 @@ namespace Assets._Project.Scripts.Managers {
         private AudioSource musicAudioSource;
         private static float musicTime;
 
-        protected override void Awake() {
+        private void Awake() {
             Instance = this;
 
             musicAudioSource = GetComponent<AudioSource>();

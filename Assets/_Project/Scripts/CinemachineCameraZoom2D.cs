@@ -1,9 +1,8 @@
-using Assets._Project.Scripts.Core;
 using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Assets._Project.Scripts {
-    public class CinemachineCameraZoom2D : CustomMonoBehaviour {
+    public class CinemachineCameraZoom2D : MonoBehaviour {
         public static CinemachineCameraZoom2D Instance { get; private set; }
 
         private const float NORMAL_ORTHOGRAPHIC_SIZE = 10f;
@@ -11,9 +10,7 @@ namespace Assets._Project.Scripts {
 
         [SerializeField] private CinemachineCamera cinemachineCamera;
 
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             Instance = this;
             SetNormalOrthographicSize();
         }

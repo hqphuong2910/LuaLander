@@ -1,13 +1,11 @@
-using Assets._Project.Scripts.Core;
 using Assets._Project.Scripts.Managers;
-using Assets._Project.Scripts.Player;
 using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets._Project.Scripts.UI {
-    public class LandedUI : CustomMonoBehaviour {
+    public class LandedUI : MonoBehaviour {
         [SerializeField] private TextMeshProUGUI titleTextMesh;
         [SerializeField] private TextMeshProUGUI statsTextMesh;
         [SerializeField] private Button nextButton;
@@ -15,28 +13,14 @@ namespace Assets._Project.Scripts.UI {
 
         private Action nextButtonClickAction;
 
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             nextButton.onClick.AddListener(() => nextButtonClickAction());
         }
 
-        protected override void Start() {
-            base.Start();
+        private void Start() {
+            Lander.Instance.OnLanded += Lander_OnLanded;
 
             Hide();
-        }
-
-        protected override void SubscribeEvents() {
-            base.SubscribeEvents();
-
-            Lander.Instance.OnLanded += Lander_OnLanded;
-        }
-
-        protected override void UnsubscribeEvents() {
-            base.UnsubscribeEvents();
-
-            Lander.Instance.OnLanded -= Lander_OnLanded;
         }
 
         private void Lander_OnLanded(object sender, Lander.OnLandedEventArgs e) {

@@ -1,8 +1,7 @@
-using Assets._Project.Scripts.Core;
 using UnityEngine;
 
 namespace Assets._Project.Scripts {
-    public class GameLevel : CustomMonoBehaviour {
+    public class GameLevel : MonoBehaviour {
         [SerializeField] private int levelNumber = 1;
         [SerializeField] private Transform landerStartPosTransform;
         [SerializeField] private Transform cameraStartTargetTransform;

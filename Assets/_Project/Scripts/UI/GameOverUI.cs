@@ -1,30 +1,21 @@
-using Assets._Project.Scripts.Core;
 using Assets._Project.Scripts.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets._Project.Scripts.UI {
-    public class GameOverUI : CustomMonoBehaviour {
+    public class GameOverUI : MonoBehaviour {
         [SerializeField] private Button mainMenuButton;
         [SerializeField] private TextMeshProUGUI scoreTextMesh;
 
-        protected override void Start() {
-            base.Start();
-
-            mainMenuButton.Select();
-        }
-
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             mainMenuButton.onClick.AddListener(() => {
                 SceneLoader.LoadScene(SceneLoader.Scene.MainMenuScene);
             });
         }
 
-        protected override void LoadDependencies() {
-            base.LoadDependencies();
+        private void Start() {
+            mainMenuButton.Select();
 
             scoreTextMesh.text = "FINAL SCORE: " + GameManager.Instance.GetTotalScore();
         }

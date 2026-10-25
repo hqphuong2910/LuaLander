@@ -1,15 +1,12 @@
-using Assets._Project.Scripts.Core;
 using TMPro;
 using UnityEngine;
 
-namespace Assets._Project.Scripts.World {
+namespace Assets._Project.Scripts {
     [RequireComponent(typeof(LandingPad))]
-    public class LandingPadVisual : CustomMonoBehaviour {
+    public class LandingPadVisual : MonoBehaviour {
         [SerializeField] private TextMeshPro scoreMultiplierTextMesh;
 
-        protected override void LoadSelf() {
-            base.LoadSelf();
-
+        private void Awake() {
             LandingPad landingPad = GetComponent<LandingPad>();
             scoreMultiplierTextMesh.text = "x" + landingPad.GetScoreMultiplier();
         }
