@@ -1,10 +1,12 @@
+using Assets._Project.Scripts.Core;
 using Assets._Project.Scripts.Managers;
+using Assets._Project.Scripts.Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets._Project.Scripts.UI {
-    public class StatsUI : MonoBehaviour {
+    public class StatsUI : CustomMonoBehaviour {
         [SerializeField] private TextMeshProUGUI statsTextMesh;
         [SerializeField] private Image fuelBarFillImage;
         [SerializeField] private Image rightArrowImage;
